@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Permissions\Category as Permission;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Products\CreateRequest;
+use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Repositories\Contract\ProductsRepositoryContract;
+use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -13,7 +17,11 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::with(['categories'])
+            ->sortable()
+            ->paginate(10);
+
+        return view('admin/products/index', compact('products'));
     }
 
     /**
@@ -21,15 +29,19 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/products/create', ['categories' => Category::select(['id', 'name'])->get()]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request, ProductsRepositoryContract $repository)
     {
-        //
+        if ($product = $repository->create($request)) {
+            return redirect()->route('admin.products.index');
+        }
+
+        return redirect()->back()->withInput();
     }
 
     /**
@@ -37,15 +49,25 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('admin/categories/edit', [
+            'categories' => Category::select(['id', 'name'])
+                ->whereNot('id', $product->id)
+                ->get(),
+            'category' => $product
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(EditRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+        $data['slug'] = Str::slug($data['name']);
+
+        $product->updateOrFail($data);
+
+        return redirect()->route('admin.categories.edit', $product);
     }
 
     /**
@@ -53,6 +75,10 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $this->middleware('permission:' . Permission::DELETE->value);
+
+        $product->deleteOrFail();
+
+        return redirect()->route('admin.categories.index');
     }
 }
