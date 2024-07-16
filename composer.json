@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "appslabke/lara-izitoast": "^1.1",
         "kyslik/column-sortable": "v6.6.0",
         "laravel/framework": "^11.9",
         "laravel/telescope": "^5.1",

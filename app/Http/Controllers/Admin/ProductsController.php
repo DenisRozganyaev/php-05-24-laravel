@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\Permissions\Category as Permission;
+use App\Enums\Permissions\Product as Permission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\CreateRequest;
+use App\Http\Requests\Admin\Products\EditRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\Contract\ProductsRepositoryContract;
@@ -38,9 +39,10 @@ class ProductsController extends Controller
     public function store(CreateRequest $request, ProductsRepositoryContract $repository)
     {
         if ($product = $repository->create($request)) {
+            notify()->success("Product '$product->title' was created!");
             return redirect()->route('admin.products.index');
         }
-
+        notify()->error("Oops, smth went wrong");
         return redirect()->back()->withInput();
     }
 
@@ -49,25 +51,25 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin/categories/edit', [
-            'categories' => Category::select(['id', 'name'])
-                ->whereNot('id', $product->id)
-                ->get(),
-            'category' => $product
-        ]);
+        $product->load(['images', 'categories']);
+
+        $categories = Category::all();
+        $productCategories = $product->categories->pluck('id')->toArray();
+
+        return view('admin/products/edit', compact('categories', 'productCategories', 'product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(EditRequest $request, Product $product)
+    public function update(EditRequest $request, Product $product, ProductsRepositoryContract $repository)
     {
-        $data = $request->validated();
-        $data['slug'] = Str::slug($data['name']);
-
-        $product->updateOrFail($data);
-
-        return redirect()->route('admin.categories.edit', $product);
+        if ($product = $repository->update($product, $request)) {
+            notify()->success("Product '$product->title' was updated!");
+            return redirect()->route('admin.products.index');
+        }
+        notify()->error("Oops, smth went wrong");
+        return redirect()->back()->withInput();
     }
 
     /**
@@ -77,8 +79,11 @@ class ProductsController extends Controller
     {
         $this->middleware('permission:' . Permission::DELETE->value);
 
+        $product->categories()->detach();
         $product->deleteOrFail();
 
-        return redirect()->route('admin.categories.index');
+        notify()->suceess("Product '$product->title' was removed!");
+
+        return redirect()->route('admin.products.index');
     }
 }
