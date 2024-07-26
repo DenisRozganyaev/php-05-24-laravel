@@ -80,9 +80,10 @@ class ProductsController extends Controller
         $this->middleware('permission:' . Permission::DELETE->value);
 
         $product->categories()->detach();
+        $product->images()->delete();
         $product->deleteOrFail();
 
-        notify()->suceess("Product '$product->title' was removed!");
+        notify()->sucess("Product '$product->title' was removed!");
 
         return redirect()->route('admin.products.index');
     }
