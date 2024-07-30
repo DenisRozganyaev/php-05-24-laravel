@@ -24,7 +24,7 @@ class EditRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('category')->id;
+        $id = $this->route('product')->id;
 
         return [
             'title' => ['required', 'string', 'min:2', 'max:255', Rule::unique(Product::class, 'title')->ignore($id)],
