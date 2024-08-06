@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use App\Jobs\WishList\PriceUpdatedJob;
+use App\Jobs\WishList\ProductExistsJob;
 use App\Models\Product;
 
 class WishListObserver
@@ -9,12 +11,11 @@ class WishListObserver
     public function updated(Product $product): void
     {
         if ($product->finalPrice < $product->getOriginal('finalPrice')) {
-            $product->followers()->wherePivot('price', true)->get();
-            // job
+            PriceUpdatedJob::dispatch($product);
         }
 
         if ($product->exist && !$product->getOriginal('exist')) {
-            // job
+            ProductExistsJob::dispatch($product);
         }
     }
 }
