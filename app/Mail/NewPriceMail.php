@@ -21,7 +21,7 @@ class NewPriceMail extends Mailable
      */
     public function __construct(public Product $product)
     {
-        //
+        ds($this->product);
     }
 
     /**
@@ -55,6 +55,10 @@ class NewPriceMail extends Mailable
      */
     public function attachments(): array
     {
-        return [Attachment::fromStorage(Storage::path($this->product->thumbnail))];
+//        $filePath = str_replace('/storage', '', $this->product->thumbnail);
+//        if (Storage::exists($filePath)) {
+//            return [Attachment::fromPath(Storage::path($filePath))];
+//        }
+        return [];
     }
 }
