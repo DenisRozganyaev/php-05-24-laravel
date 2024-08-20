@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Pages\ThankYouController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
 Route::get('test', function() {
-
+    $order = Order::take(1)->first();
+    \App\Events\OrderCreatedEvent::dispatchIf($order, $order);
 });
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -54,3 +56,8 @@ Route::name('ajax.')->prefix('ajax')->group(function() {
     });
 });
 
+Route::name('callbacks.')->prefix('callbacks')->group(function() {
+   Route::get('telegram', \App\Http\Controllers\Callbacks\JoinTelegramController::class)
+       ->middleware(['role:admin'])
+       ->name('telegram');
+});

@@ -20,8 +20,8 @@ class SaveCartOnLogout
      */
     public function handle(Logout $event): void
     {
-//        if (Cart::instance('cart')->count() > 0) {
-//            Cart::instance('cart')->store($event->user->id . '_cart');
-//        }
+        if (Cart::instance('cart')->count() > 0) {
+            Cart::instance('cart')->store($event->user->id . '_cart');
+        }
     }
 }
