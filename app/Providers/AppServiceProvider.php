@@ -7,6 +7,8 @@ use App\Listeners\Orders\CreatedListener;
 use App\Listeners\RestoreCartOnLogin;
 use App\Listeners\SaveCartOnLogout;
 use App\Models\Order;
+use App\Models\Product;
+use App\Policies\Api\ProductPolicy;
 use App\Policies\OrderPolicy;
 use App\Repositories\Contract\ImagesRepositoryContract;
 use App\Repositories\Contract\OrderRepositoryContract;
@@ -55,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+        Gate::policy(Product::class, ProductPolicy::class);
 //        Gate::policy(Order::class, OrderPolicy::class);
     }
 }
