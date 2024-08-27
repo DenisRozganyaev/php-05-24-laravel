@@ -7,11 +7,11 @@ return [
     */
     'columns' => [
         'alpha' => [
-            'rows' => ['description', 'email', 'name', 'slug', 'SKU', 'title'],
+            'rows' => ['description', 'email', 'name', 'slug', 'SKU', 'title', 'status'],
             'class' => 'fa fa-sort-alpha',
         ],
         'amount' => [
-            'rows' => ['quantity', 'price', 'discount'],
+            'rows' => ['quantity', 'price', 'discount', 'total'],
             'class' => 'fa fa-sort-amount',
         ],
         'numeric' => [
