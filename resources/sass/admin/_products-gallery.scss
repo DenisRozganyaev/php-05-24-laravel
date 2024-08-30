@@ -1,0 +1,10 @@
+.images-wrapper-item {
+    position: relative;
+
+    &-remove {
+        position: absolute;
+        right: 0;
+        top: -5%;
+        border-radius: 100%;
+    }
+}
