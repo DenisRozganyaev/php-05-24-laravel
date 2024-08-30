@@ -7,6 +7,11 @@ The body of your message.
 Button Text
 </x-mail::button>
 
+
+
+
+
+    
 Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>
