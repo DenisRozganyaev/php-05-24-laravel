@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Pages\ThankYouController;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
@@ -12,6 +13,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 
 Route::resource('products', \App\Http\Controllers\ProductsController::class)->only(['show', 'index']);
 Route::get('checkout', \App\Http\Controllers\CheckoutController::class)->name('checkout');
+Route::get('orders/{vendorOrderId}/thank-you', ThankYouController::class)->name('thankyou');
 
 Route::middleware(['auth'])->group(function() {
     Route::post('wishlist/{product}', [\App\Http\Controllers\WishListController::class, 'add'])->name('wishlist.add');
@@ -22,6 +24,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/', [App\Http\Controllers\Account\HomeController::class, 'index'])->name('home');
         Route::get('wishlist', App\Http\Controllers\Account\WishListController::class)->name('wishlist');
     });
+
+    Route::get('invoices/{order}', \App\Http\Controllers\InvoicesController::class)->name('invoice');
 });
 
 Route::name('cart.')->prefix('cart')->group(function() {

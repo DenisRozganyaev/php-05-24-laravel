@@ -2,12 +2,12 @@
 
 namespace App\Services\Contracts;
 
-use App\Http\Requests\CreateOrderRequest;
-use Illuminate\Http\JsonResponse;
+use App\Enums\TransactionStatus;
+use Gloudemans\Shoppingcart\Cart;
 
 interface PaypalServiceContract
 {
-    public function create(CreateOrderRequest $request): array;
+    public function create(Cart $cart): string|null;
 
-    public function capture(string $vendorOrderId): array;
+    public function capture(string $vendorOrderId): TransactionStatus;
 }
