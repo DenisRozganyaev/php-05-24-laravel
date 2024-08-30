@@ -44,7 +44,7 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
-        DB_HOST: postgres
+        DB_HOST: localhost
         DB_CONNECTION: pgsql
         DB_DATABASE: laravel
         DB_PASSWORD: postgres
