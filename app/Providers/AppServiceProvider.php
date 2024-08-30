@@ -9,7 +9,9 @@ use App\Repositories\Contract\ProductsRepositoryContract;
 use App\Repositories\ImagesRepository;
 use App\Repositories\ProductsRepository;
 use App\Services\Contracts\FileServiceContract;
+use App\Services\Contracts\PaypalServiceContract;
 use App\Services\FileService;
+use App\Services\PaypalService;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Pagination\Paginator;
@@ -22,7 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public array $bindings = [
         ProductsRepositoryContract::class => ProductsRepository::class,
         ImagesRepositoryContract::class => ImagesRepository::class,
-        FileServiceContract::class => FileService::class
+        FileServiceContract::class => FileService::class,
+        PaypalServiceContract::class => PaypalService::class,
     ];
 
     /**

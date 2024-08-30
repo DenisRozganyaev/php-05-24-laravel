@@ -11,6 +11,7 @@ Route::get('test', function() {
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('products', \App\Http\Controllers\ProductsController::class)->only(['show', 'index']);
+Route::get('checkout', \App\Http\Controllers\CheckoutController::class)->name('checkout');
 
 Route::middleware(['auth'])->group(function() {
     Route::post('wishlist/{product}', [\App\Http\Controllers\WishListController::class, 'add'])->name('wishlist.add');
@@ -41,6 +42,11 @@ Route::name('ajax.')->prefix('ajax')->group(function() {
     Route::group(['auth', 'role:admin|moderator'], function() {
         Route::post('products/{product}/images', \App\Http\Controllers\Ajax\Products\UploadImages::class)->name('product.images.upload');
         Route::delete('images/{image}', \App\Http\Controllers\Ajax\RemoveImageController::class)->name('image.remove');
+    });
+
+    Route::prefix('paypal')->name('paypal.')->group(function() {
+       Route::post('order', [\App\Http\Controllers\Ajax\Payments\PaypalController::class, 'create'])->name('order.create');
+       Route::post('order/{vendorOrderId}/capture', [\App\Http\Controllers\Ajax\Payments\PaypalController::class, 'capture'])->name('order.capture');
     });
 });
 
