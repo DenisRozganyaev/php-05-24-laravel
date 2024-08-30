@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Http\Requests\Admin\Products\CreateRequest;
 use App\Http\Requests\Admin\Products\EditRequest;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Http\Requests\Api\ProductUpdateRequest;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Models\Product;
 use App\Repositories\Contract\ImagesRepositoryContract;
 use App\Repositories\Contract\ProductsRepositoryContract;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -17,9 +17,7 @@ use Throwable;
 
 class ProductsRepository implements ProductsRepositoryContract
 {
-    public function __construct(protected ImagesRepositoryContract $imageRepository)
-    {
-    }
+    public function __construct(protected ImagesRepositoryContract $imageRepository) {}
 
     public function create(CreateRequest $request): Product|false
     {
@@ -50,7 +48,7 @@ class ProductsRepository implements ProductsRepositoryContract
     {
         $product->categories()->sync($data['categories']);
 
-        if (!empty($data['images'])) {
+        if (! empty($data['images'])) {
             $this->imageRepository->attach(
                 $product,
                 'images',
@@ -69,7 +67,7 @@ class ProductsRepository implements ProductsRepositoryContract
                 ->prepend(Str::slug($request->get('title')), 'slug')
                 ->toArray(),
             'categories' => $request->get('categories', []),
-            'images' => $request->file('images', [])
+            'images' => $request->file('images', []),
         ]);
     }
 
@@ -81,7 +79,7 @@ class ProductsRepository implements ProductsRepositoryContract
                 ->prepend(Str::slug($request->get('title')), 'slug')
                 ->toArray(),
             'categories' => $request->get('categories', []),
-            'images' => $request->file('images', [])
+            'images' => $request->file('images', []),
         ];
     }
 
@@ -106,9 +104,9 @@ class ProductsRepository implements ProductsRepositoryContract
     public function paginate(Request $request): LengthAwarePaginator
     {
         $products = Product::with(['categories', 'images'])
-            ->when($request->get('exists'), function(Builder $query) {
+            ->when($request->get('exists'), function (Builder $query) {
                 return $query->exists();
-            })->when($request->get('out_of_stock'), function(Builder $query) {
+            })->when($request->get('out_of_stock'), function (Builder $query) {
                 return $query->where('quantity', '<=', 0);
             })->orderByDesc('id');
 

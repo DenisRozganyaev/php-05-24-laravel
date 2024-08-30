@@ -29,24 +29,24 @@ class PermissionsAndRolesSeeder extends Seeder
             ...Category::values(),
         ];
 
-        foreach($permissions as $perm) {
+        foreach ($permissions as $perm) {
             Permission::findOrCreate($perm);
         }
 
-        if (!Role::where('name', RoleEnum::CUSTOMER->value)->exists()) {
+        if (! Role::where('name', RoleEnum::CUSTOMER->value)->exists()) {
             (Role::create(['name' => RoleEnum::CUSTOMER->value]))
                 ->givePermissionTo(Account::values());
         }
 
-        if (!Role::where('name', RoleEnum::MODERATOR->value)->exists()) {
+        if (! Role::where('name', RoleEnum::MODERATOR->value)->exists()) {
             (Role::create(['name' => RoleEnum::MODERATOR->value]))
                 ->givePermissionTo([
                     ...Category::values(),
-                    ...Product::values()
+                    ...Product::values(),
                 ]);
         }
 
-        if (!Role::where('name', RoleEnum::ADMIN->value)->exists()) {
+        if (! Role::where('name', RoleEnum::ADMIN->value)->exists()) {
             (Role::create(['name' => RoleEnum::ADMIN->value]))
                 ->givePermissionTo(Permission::all());
         }

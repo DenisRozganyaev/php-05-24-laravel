@@ -14,14 +14,14 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        # route() => categories/name-of-category
-        # url() => http://laravel.test
-        # url(route('categories.show', $this)) => http://laravel.test/categories/name-of-category
+        // route() => categories/name-of-category
+        // url() => http://laravel.test
+        // url(route('categories.show', $this)) => http://laravel.test/categories/name-of-category
 
         return [
-//            'url' => url(route('categories.show', $this)),
+            //            'url' => url(route('categories.show', $this)),
             'name' => $this->name,
-            'parent' => new self($this->parent)
+            'parent' => new self($this->parent),
         ];
     }
 }

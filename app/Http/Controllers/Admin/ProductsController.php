@@ -9,7 +9,6 @@ use App\Http\Requests\Admin\Products\EditRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\Contract\ProductsRepositoryContract;
-use Illuminate\Support\Str;
 
 class ProductsController extends Controller
 {
@@ -40,9 +39,11 @@ class ProductsController extends Controller
     {
         if ($product = $repository->create($request)) {
             notify()->success("Product '$product->title' was created!");
+
             return redirect()->route('admin.products.index');
         }
-        notify()->error("Oops, smth went wrong");
+        notify()->error('Oops, smth went wrong');
+
         return redirect()->back()->withInput();
     }
 
@@ -66,9 +67,11 @@ class ProductsController extends Controller
     {
         if ($repository->update($product, $request)) {
             notify()->success("Product '$product->title' was updated!");
+
             return redirect()->route('admin.products.edit', $product);
         }
-        notify()->error("Oops, smth went wrong");
+        notify()->error('Oops, smth went wrong');
+
         return redirect()->back()->withInput();
     }
 
@@ -77,7 +80,7 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->middleware('permission:' . Permission::DELETE->value);
+        $this->middleware('permission:'.Permission::DELETE->value);
 
         $product->categories()->detach();
         $product->images()->delete();

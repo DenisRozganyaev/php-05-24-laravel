@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class ImagesCollection extends ResourceCollection
 {
     public $collects = ImageResource::class;
+
     /**
      * Transform the resource collection into an array.
      *

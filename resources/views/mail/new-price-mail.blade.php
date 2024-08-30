@@ -11,7 +11,6 @@ Button Text 2
 
 
 
-
 Thanks,<br>
 {{ config('app.name') }}
 </x-mail::message>

@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->delete();
 
-        if (!User::role(Role::ADMIN->value)->exists()) {
+        if (! User::role(Role::ADMIN->value)->exists()) {
             User::factory()->admin()->create();
         }
 

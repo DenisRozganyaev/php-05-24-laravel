@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Notification;
 
 class CreatedListener implements ShouldQueue
 {
-
     /**
      * Create the event listener.
      */

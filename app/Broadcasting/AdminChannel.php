@@ -20,7 +20,8 @@ class AdminChannel
      */
     public function join(User $user): array|bool
     {
-        logs()->info(self::class . ' => ' . $user->hasRole(Role::ADMIN->value) . ' | Email: ' . $user->email);
+        logs()->info(self::class.' => '.$user->hasRole(Role::ADMIN->value).' | Email: '.$user->email);
+
         return $user->hasRole(Role::ADMIN->value);
     }
 }

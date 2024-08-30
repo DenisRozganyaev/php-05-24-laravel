@@ -12,7 +12,9 @@ use Illuminate\Http\Request;
 interface ProductsRepositoryContract
 {
     public function create(CreateRequest $request): Product|false;
+
     public function update(Product $product, EditRequest $request): bool;
+
     public function updateApi(Product $product, ProductUpdateRequest $request): bool;
 
     public function paginate(Request $request): LengthAwarePaginator;

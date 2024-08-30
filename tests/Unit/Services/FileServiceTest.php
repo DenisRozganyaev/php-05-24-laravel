@@ -10,6 +10,7 @@ use Tests\TestCase;
 class FileServiceTest extends TestCase
 {
     const FILE_NAME = 'image.png';
+
     protected FileServiceContract $service;
 
     protected function setUp(): void
@@ -67,9 +68,10 @@ class FileServiceTest extends TestCase
         $this->assertFalse(Storage::has($uploadedFile));
     }
 
-    protected function uploadedFile(string $fileName = null, string $additionPath = ''): string
+    protected function uploadedFile(?string $fileName = null, string $additionPath = ''): string
     {
         $file = UploadedFile::fake()->image($fileName ?? self::FILE_NAME);
+
         return $this->service->upload($file, $additionPath);
     }
 }

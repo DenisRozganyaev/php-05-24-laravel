@@ -8,27 +8,26 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
-use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Facades\Invoice as Facade;
+use LaravelDaily\Invoices\Invoice;
 
 class InvoiceService implements Contracts\InvoiceServiceContract
 {
-
     public function generate(Order $order): Invoice
     {
         $order->loadMissing(['transaction', 'products', 'status']);
 
         $customer = new Buyer([
-            'name' => $order->name . ' ' . $order->lastname,
+            'name' => $order->name.' '.$order->lastname,
             'phone' => $order->phone,
             'custom_fields' => [
                 'email' => $order->email,
                 'city' => $order->city,
                 'address' => $order->address,
-            ]
+            ],
         ]);
 
-        $fileName = Str::slug($customer->name . ' ' . $order->vendor_order_id);
+        $fileName = Str::slug($customer->name.' '.$order->vendor_order_id);
 
         $invoice = Facade::make('receipt')
             ->series('BIG')

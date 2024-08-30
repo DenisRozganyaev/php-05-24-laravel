@@ -36,7 +36,7 @@ class ProductsControllerTest extends TestCase
 
         $this->assertDatabaseHas(Product::class, [
             'slug' => $slug,
-            'thumbnail' => $imagePath
+            'thumbnail' => $imagePath,
         ]);
     }
 }

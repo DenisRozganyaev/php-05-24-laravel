@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, HasApiTokens;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +32,7 @@ class User extends Authenticatable
         'password',
         'telegram_id',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     /**
@@ -88,7 +88,7 @@ class User extends Authenticatable
         $this->wishes()->updateExistingPivot($product, [$type => false]);
         $product = $this->wishes()->find($product);
 
-        if (!$product->pivot->exist && !$product->pivot->price) {
+        if (! $product->pivot->exist && ! $product->pivot->price) {
             $this->wishes()->detach($product);
         }
     }

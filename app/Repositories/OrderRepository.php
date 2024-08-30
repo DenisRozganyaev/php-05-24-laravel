@@ -34,11 +34,11 @@ class OrderRepository implements OrderRepositoryContract
 
         $order->transaction()->create([
             'payment_system' => $system,
-            'status' => $status
+            'status' => $status,
         ]);
 
         $order->update([
-            'status_id' => $this->getOrderStatus($status)->id
+            'status_id' => $this->getOrderStatus($status)->id,
         ]);
 
         return $order;
@@ -46,7 +46,7 @@ class OrderRepository implements OrderRepositoryContract
 
     protected function getOrderStatus(TransactionStatus $status): OrderStatus
     {
-        return match($status) {
+        return match ($status) {
             TransactionStatus::Success => OrderStatus::paid()->first(),
             TransactionStatus::Canceled => OrderStatus::canceled()->first(),
             default => OrderStatus::default()->first()
@@ -55,13 +55,13 @@ class OrderRepository implements OrderRepositoryContract
 
     protected function addProductsToOrder(Order $order): void
     {
-        Cart::instance('cart')->content()->each(function($item) use ($order) {
+        Cart::instance('cart')->content()->each(function ($item) use ($order) {
             $product = $item->model;
 
             $order->products()->attach($product, [
                 'quantity' => $item->qty,
                 'single_price' => $item->price,
-                'name' => $product->title
+                'name' => $product->title,
             ]);
 
             $quantity = $product->quantity - $item->qty;

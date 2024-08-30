@@ -16,9 +16,9 @@ class FileService implements FileServiceContract
             return str_replace('public/storage', '', $file);
         }
 
-        $additionalPath = !empty($additionalPath) ? $additionalPath . '/' : '';
+        $additionalPath = ! empty($additionalPath) ? $additionalPath.'/' : '';
 
-        $filePath = $additionalPath . time() . '_' . Str::random() . '_' . $file->getClientOriginalName();
+        $filePath = $additionalPath.time().'_'.Str::random().'_'.$file->getClientOriginalName();
         Storage::put($filePath, File::get($file));
         Storage::setVisibility($filePath, 'public');
 
