@@ -48,6 +48,6 @@ jobs:
         DB_CONNECTION: pgsql
         DB_DATABASE: laravel
         DB_PASSWORD: postgres
-        DB_USER: postgres
+        DB_USERNAME: postgres
         DB_PORT: 5432
       run: php artisan test
