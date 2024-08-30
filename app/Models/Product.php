@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatusEnum;
 use App\Observers\ProductObserver;
 use App\Observers\WishListObserver;
 use App\Services\Contracts\FileServiceContract;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,6 +49,10 @@ class Product extends Model
         'updated_at'
     ];
 
+    protected $casts = [
+        'price' => 'float',
+    ];
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
@@ -70,6 +76,12 @@ class Product extends Model
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
+    }
+
+
+    public function scopeExists(Builder $query): Builder
+    {
+        return $query->where('quantity', '>', 0);
     }
 
     public function setThumbnailAttribute($image)
