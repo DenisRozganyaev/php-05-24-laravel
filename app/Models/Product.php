@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\ProductObserver;
+use App\Observers\WishListObserver;
 use App\Services\Contracts\FileServiceContract;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -16,7 +17,7 @@ use Kyslik\ColumnSortable\Sortable;
 /**
  * @mixin IdeHelperProduct
  */
-#[ObservedBy([ProductObserver::class])]
+#[ObservedBy([ProductObserver::class, WishListObserver::class])]
 class Product extends Model
 {
     use HasFactory, Sortable;
@@ -56,6 +57,16 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'wish_list',
+            'product_id',
+            'user_id'
+        );
+    }
+
     public function setThumbnailAttribute($image)
     {
         $fileService = app(FileServiceContract::class);
@@ -84,6 +95,13 @@ class Product extends Model
     {
         return Attribute::get(
             fn() => round($this->attributes['price'] - ($this->attributes['price'] * ($this->attributes['discount'] / 100)), 2)
+        );
+    }
+
+    public function exist(): Attribute
+    {
+        return Attribute::get(
+            fn() => $this->quantity > 0
         );
     }
 }
