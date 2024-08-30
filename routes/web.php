@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('test', function() {
-    $order = Order::take(1)->first();
-    \App\Events\OrderCreatedEvent::dispatchIf($order, $order);
+    \App\Events\Sockets\Admin\OrderCreated::dispatch(253.50, url(route('admin.orders.index')));
 });
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -42,6 +41,7 @@ Route::name('admin.')->prefix('admin')->middleware('role:admin|moderator')->grou
     Route::get('/', \App\Http\Controllers\Admin\DashboardController::class)->name('dashboard');
     Route::resource('products', \App\Http\Controllers\Admin\ProductsController::class)->except(['show']);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoriesController::class)->except(['show']);
+    Route::resource('orders', \App\Http\Controllers\Admin\OrdersController::class)->only(['index', 'show']);
 });
 
 Route::name('ajax.')->prefix('ajax')->group(function() {

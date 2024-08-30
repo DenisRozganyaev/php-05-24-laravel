@@ -1,4 +1,9 @@
 <li class="nav-item dropdown">
+    <a id="productList" class="nav-link" href="{{ route('admin.orders.index') }}">
+        Orders
+    </a>
+</li>
+<li class="nav-item dropdown">
     <a id="productList" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
         Products
     </a>

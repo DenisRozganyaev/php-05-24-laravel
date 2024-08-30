@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax\Payments;
 
 use App\Enums\PaymentSystem;
 use App\Events\OrderCreatedEvent;
+use App\Events\Sockets\Admin\OrderCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateOrderRequest;
 use App\Repositories\Contract\OrderRepositoryContract;
@@ -66,6 +67,7 @@ class PaypalController extends Controller
             DB::commit();
 
             OrderCreatedEvent::dispatchIf($order, $order);
+            OrderCreated::dispatch($order->total);
 
             return response()->json($order);
         } catch (\Exception $exception) {
