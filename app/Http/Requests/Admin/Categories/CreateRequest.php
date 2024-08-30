@@ -8,6 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
 {
+    protected $redirectRoute = 'admin.categories.create';
+
     public function authorize(): bool
     {
         return auth()->user()->can(Permission::PUBLISH->value);

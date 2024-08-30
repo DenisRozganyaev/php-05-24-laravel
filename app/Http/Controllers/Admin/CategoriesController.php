@@ -40,6 +40,8 @@ class CategoriesController extends Controller
 
         Category::create($data);
 
+        notify()->success("Category [$data[name]] was created.");
+
         return redirect()->route('admin.categories.index');
     }
 
