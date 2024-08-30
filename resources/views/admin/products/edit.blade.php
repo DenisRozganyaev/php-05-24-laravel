@@ -4,7 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-center pt-5">
-                <form class="card w-50" method="POST" enctype="multipart/form-data" action="{{route('admin.products.store')}}">
+                <form class="card w-50" method="POST" enctype="multipart/form-data" action="{{route('admin.products.update', $product)}}">
+                    @method('PUT')
                     @csrf
 
                     <h5 class="card-header">Edit product</h5>
@@ -154,7 +155,7 @@
                                    class="col-md-4 col-form-label text-md-end">{{ __('Additional Images') }}</label>
 
                             <div class="col-12 mb-4 d-flex align-items-center justify-content-center">
-                                <div id="images-wrapper" class="row">
+                                <div id="edit-images-wrapper" class="row">
                                     @foreach($product->images as $image)
                                         <div class='mb-4 col-md-6 images-wrapper-item'>
                                             <button class="btn btn-danger images-wrapper-item-remove"
@@ -169,7 +170,7 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <input id="images" type="file"
+                                        <input id="edit-images" type="file"
                                                class="form-control @error('images') is-invalid @enderror d-none" name="images[]" multiple>
                                     </div>
                                     <div class="col-md-6 d-flex align-items-center justify-content-end">
@@ -186,7 +187,7 @@
 
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-end">
-                        <button type="submit" class="btn btn-outline-success">Create</button>
+                        <button type="submit" class="btn btn-outline-success">Update</button>
                     </div>
                 </form>
             </div>

@@ -1,9 +1,9 @@
 const selectors = {
-    wrapper: "#images-wrapper",
+    wrapper: "#edit-images-wrapper",
     item: ".images-wrapper-item",
     removeBtn: ".images-wrapper-item-remove",
     addBtn: ".add-images",
-    input: "#images",
+    input: "#edit-images",
     spinner: "#spinner"
 };
 
@@ -42,9 +42,24 @@ $(document).ready(function () {
                 headers: { "Content-Type": "multipart/form-data" }
             }
         ).then((response) => {
+            if (response.data?.length > 0) {
+                for (const key in response.data) {
+                    const imageBlock = template
+                        .replace('_url_', response.data[key].url)
+                        .replace('_id_', response.data[key].id)
 
+                    $(selectors.wrapper).append(imageBlock)
+                }
+            }
         }).catch((error) => {
-
+            console.error(error);
+            iziToast.warning({
+                message: error.data.message,
+                position: 'topRight'
+            });
+        }).finally(() => {
+            $(selectors.spinner).addClass('d-none');
+            $(selectors.addBtn).removeClass('disabled');
         })
     });
 

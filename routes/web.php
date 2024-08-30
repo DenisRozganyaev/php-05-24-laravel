@@ -2,11 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => view('welcome'));
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/account', [App\Http\Controllers\Account\HomeController::class, 'index'])->middleware(['auth'])->name('home');
+
+Route::resource('products', \App\Http\Controllers\ProductsController::class)->only(['show', 'index']);
+
+Route::name('cart.')->prefix('cart')->group(function() {
+    Route::get('/', [\App\Http\Controllers\CartController::class, 'index'])->name('index');
+    Route::post('{product}', [\App\Http\Controllers\CartController::class, 'add'])->name('add');
+    Route::delete('/', [\App\Http\Controllers\CartController::class, 'remove'])->name('remove');
+    Route::put('{product}/count', [\App\Http\Controllers\CartController::class, 'count'])->name('count');
+});
 
 // site.com/admin
 Route::name('admin.')->prefix('admin')->middleware('role:admin|moderator')->group(function() {
