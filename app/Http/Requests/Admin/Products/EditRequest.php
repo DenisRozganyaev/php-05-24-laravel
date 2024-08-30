@@ -3,16 +3,18 @@
 namespace App\Http\Requests\Admin\Products;
 
 use App\Enums\Permissions\Product as Permission;
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CreateRequest extends FormRequest
+class EditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->user()->can(Permission::PUBLISH->value);
+        return auth()->user()->can(Permission::EDIT->value);
     }
 
     /**
@@ -22,15 +24,17 @@ class CreateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('category')->id;
+
         return [
-            'title' => ['required', 'string', 'min:2', 'max:255', 'unique:products'],
-            'SKU' => ['required', 'string', 'min:1', 'max:35', 'unique:products'],
+            'title' => ['required', 'string', 'min:2', 'max:255', Rule::unique(Product::class, 'title')->ignore($id)],
+            'SKU' => ['required', 'string', 'min:1', 'max:35', Rule::unique(Product::class, 'SKU')->ignore($id)],
             'description' => ['nullable', 'string'],
             'price' => ['required', 'numeric', 'min:1'],
             'discount' => ['required', 'numeric', 'min:0', 'max:99'],
             'quantity' => ['required', 'numeric', 'min:0'],
             'categories.*' => ['required', 'numeric', 'exists:categories,id'],
-            'thumbnail' => ['required', 'image:jpeg,png,jpg'],
+            'thumbnail' => ['nullable', 'image:jpeg,png,jpg'],
             'images.*' => ['image:jpeg,png,jpg'],
         ];
     }

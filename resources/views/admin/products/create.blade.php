@@ -144,6 +144,22 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="images"
+                                   class="col-md-4 col-form-label text-md-end">{{ __('Additional Images') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="images" type="file"
+                                       class="form-control @error('images') is-invalid @enderror" name="images[]" multiple>
+
+                                @error('images')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                     </div>
                     <div class="card-footer d-flex align-items-center justify-content-end">
                         <button type="submit" class="btn btn-outline-success">Create</button>
