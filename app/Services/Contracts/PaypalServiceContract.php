@@ -7,7 +7,7 @@ use Gloudemans\Shoppingcart\Cart;
 
 interface PaypalServiceContract
 {
-    public function create(Cart $cart): string|null;
+    public function create(Cart $cart): ?string;
 
     public function capture(string $vendorOrderId): TransactionStatus;
 }

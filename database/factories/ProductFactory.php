@@ -39,14 +39,14 @@ class ProductFactory extends Factory
         $faker = \Faker\Factory::create();
         $faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($faker));
 
-        if (!Storage::exists($dirName)) {
+        if (! Storage::exists($dirName)) {
             Storage::createDirectory($dirName);
         }
 
         /**
          * @var \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider $faker
          */
-        return $dirName . '/' . $faker->image(
+        return $dirName.'/'.$faker->image(
             dir: Storage::path($dirName),
             isFullPath: false
         );

@@ -17,12 +17,12 @@ class ProductsController extends Controller
     {
         $gallery = [
             $product->thumbnailUrl,
-            ...$product->images->map(fn ($image) => $image->url)
+            ...$product->images->map(fn ($image) => $image->url),
         ];
 
         $wishes = [
             'exist' => auth()->check() ? auth()->user()->isWishedProduct($product, 'exist') : false,
-            'price' => auth()->check() ? auth()->user()->isWishedProduct($product, 'price') : false
+            'price' => auth()->check() ? auth()->user()->isWishedProduct($product, 'price') : false,
         ];
 
         return view('products.show', compact('product', 'gallery', 'wishes'));

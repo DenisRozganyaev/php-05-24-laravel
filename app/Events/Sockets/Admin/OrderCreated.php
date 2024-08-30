@@ -10,14 +10,14 @@ use Illuminate\Foundation\Events\Dispatchable;
 
 class OrderCreated implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, InteractsWithBroadcasting;
+    use Dispatchable, InteractsWithBroadcasting, InteractsWithSockets;
 
     /**
      * Create a new event instance.
      */
     public function __construct(public float $total, public string $url)
     {
-        logs()->info(self::class . ' => test');
+        logs()->info(self::class.' => test');
         logs()->info('data', [$total, $url]);
 
         $this->broadcastVia('reverb');

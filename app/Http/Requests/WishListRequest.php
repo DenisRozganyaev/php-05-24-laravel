@@ -23,7 +23,7 @@ class WishListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', Rule::in(['price', 'exist'])]
+            'type' => ['required', Rule::in(['price', 'exist'])],
         ];
     }
 }

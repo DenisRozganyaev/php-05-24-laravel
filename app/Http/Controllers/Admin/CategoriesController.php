@@ -54,7 +54,7 @@ class CategoriesController extends Controller
             'categories' => Category::select(['id', 'name'])
                 ->whereNot('id', $category->id)
                 ->get(),
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
@@ -76,7 +76,7 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        $this->middleware('permission:' . Permission::DELETE->value);
+        $this->middleware('permission:'.Permission::DELETE->value);
 
         $category->deleteOrFail();
 

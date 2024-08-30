@@ -16,14 +16,14 @@ class EventServiceProvider extends ServiceProvider
 
     protected $listen = [
         OrderCreatedEvent::class => [
-            CreatedListener::class
+            CreatedListener::class,
         ],
         Login::class => [
-            RestoreCartOnLogin::class
+            RestoreCartOnLogin::class,
         ],
         Logout::class => [
-            SaveCartOnLogout::class
-        ]
+            SaveCartOnLogout::class,
+        ],
     ];
 
     /**

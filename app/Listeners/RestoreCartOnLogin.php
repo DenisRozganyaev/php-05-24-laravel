@@ -20,6 +20,6 @@ class RestoreCartOnLogin
      */
     public function handle(Login $event): void
     {
-        Cart::instance('cart')->restore($event->user->id . '_cart');
+        Cart::instance('cart')->restore($event->user->id.'_cart');
     }
 }

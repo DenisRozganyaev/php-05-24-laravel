@@ -27,11 +27,11 @@ class NewPriceNotification extends Notification
     public function toMail(User $user): Mailable
     {
         return (new NewPriceMail($this->product))->to($user->email);
-//        return (new MailMessage)
-//            ->line("Hey, $user->name $user->lastname")
-//            ->line("Product ". $this->product->title ." from your wish list has new lower price!")
-//            ->line('Hurry up!')
-//            ->action('Visit product page', url(route('products.show', $this->product)))
-//            ->line('Thank you for using our application!');
+        //        return (new MailMessage)
+        //            ->line("Hey, $user->name $user->lastname")
+        //            ->line("Product ". $this->product->title ." from your wish list has new lower price!")
+        //            ->line('Hurry up!')
+        //            ->action('Visit product page', url(route('products.show', $this->product)))
+        //            ->line('Thank you for using our application!');
     }
 }

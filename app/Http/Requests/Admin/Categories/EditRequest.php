@@ -17,9 +17,10 @@ class EditRequest extends FormRequest
     public function rules(): array
     {
         $id = $this->route('category')->id;
+
         return [
             'name' => ['required', 'string', 'min: 2', 'max: 50', Rule::unique(Category::class, 'name')->ignore($id)],
-            'parent_id' => ['nullable', 'numeric', 'exists:' . Category::class . ',id']
+            'parent_id' => ['nullable', 'numeric', 'exists:'.Category::class.',id'],
         ];
     }
 }
