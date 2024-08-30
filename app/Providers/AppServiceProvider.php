@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\OrderCreatedEvent;
+use App\Listeners\Orders\CreatedListener;
 use App\Listeners\RestoreCartOnLogin;
 use App\Listeners\SaveCartOnLogout;
 use App\Models\Order;
@@ -53,14 +55,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
-        Event::listen(
-            Login::class,
-            RestoreCartOnLogin::class
-        );
-        Event::listen(
-            Logout::class,
-            SaveCartOnLogout::class
-        );
 //        Gate::policy(Order::class, OrderPolicy::class);
     }
 }
