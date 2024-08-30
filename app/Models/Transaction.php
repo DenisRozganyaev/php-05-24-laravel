@@ -16,7 +16,7 @@ class Transaction extends Model
 
     protected $casts = [
         'payment_system' => PaymentSystem::class,
-        'status' => TransactionStatus::class
+        'status' => TransactionStatus::class,
     ];
 
     public function order(): BelongsTo

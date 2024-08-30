@@ -14,7 +14,7 @@ class WishListObserver
             PriceUpdatedJob::dispatch($product);
         }
 
-        if ($product->exist && !$product->getOriginal('exist')) {
+        if ($product->exist && ! $product->getOriginal('exist')) {
             ProductExistsJob::dispatch($product);
         }
     }

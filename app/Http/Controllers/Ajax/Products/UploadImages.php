@@ -11,9 +11,9 @@ class UploadImages extends Controller
 {
     public function __invoke(Request $request, Product $product)
     {
-        $this->middleware('permission:' . Permission::EDIT->value);
+        $this->middleware('permission:'.Permission::EDIT->value);
         $data = $request->validate([
-            'images.*' => ['required', 'image:jpeg,png,jpg']
+            'images.*' => ['required', 'image:jpeg,png,jpg'],
         ]);
         $response = [];
 
@@ -22,18 +22,18 @@ class UploadImages extends Controller
                 $img = $product->images()->create([
                     'path' => [
                         'image' => $image,
-                        'directory' => $product->slug
-                    ]
+                        'directory' => $product->slug,
+                    ],
                 ]);
                 $response[] = ['url' => $img->url, 'id' => $img->id];
             }
 
             return response()->json($response);
-        } catch(\Throwable $exception) {
+        } catch (\Throwable $exception) {
             logs()->error($exception);
 
             return response()->json([
-                'message' => $exception->getMessage()
+                'message' => $exception->getMessage(),
             ]);
         }
     }

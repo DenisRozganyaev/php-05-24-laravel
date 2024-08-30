@@ -31,12 +31,12 @@ class CartController extends Controller
     public function remove(Request $request)
     {
         $data = $request->validate([
-            'rowId' => ['required', 'string']
+            'rowId' => ['required', 'string'],
         ]);
 
         Cart::instance('cart')->remove($data['rowId']);
 
-        notify()->success("Product was removed from the cart");
+        notify()->success('Product was removed from the cart');
 
         return redirect()->back();
     }
@@ -45,12 +45,12 @@ class CartController extends Controller
     {
         $data = $request->validate([
             'rowId' => ['required', 'string'],
-            'qty' => ['required', 'numeric', 'min:1', 'max:' . $product->quantity],
+            'qty' => ['required', 'numeric', 'min:1', 'max:'.$product->quantity],
         ]);
 
         Cart::instance('cart')->update($data['rowId'], $data['qty']);
 
-        notify()->success("Product count was updated");
+        notify()->success('Product count was updated');
 
         return redirect()->back();
     }

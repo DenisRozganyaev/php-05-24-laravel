@@ -18,4 +18,3 @@ class OrderCreatedEvent
         logs()->info('OrderCreatedEvent dispatched');
     }
 }
-

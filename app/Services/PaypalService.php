@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\Enums\TransactionStatus;
-use App\Http\Requests\CreateOrderRequest;
 use App\Services\Contracts\PaypalServiceContract;
 use Gloudemans\Shoppingcart\Cart;
 use Srmklive\PayPal\Services\PayPal;
-
 
 class PaypalService implements PaypalServiceContract
 {
@@ -20,12 +18,12 @@ class PaypalService implements PaypalServiceContract
         $this->paypalClient->setAccessToken($this->paypalClient->getAccessToken());
     }
 
-    public function create(Cart $cart): string|null
+    public function create(Cart $cart): ?string
     {
         $paypalOrder = $this->paypalClient->createOrder($this->buildOrderRequestData($cart));
 
         logs()->info('Paypal create order response:', [
-            'response' => $paypalOrder
+            'response' => $paypalOrder,
         ]);
 
         return $paypalOrder['id'] ?? null;
@@ -35,7 +33,7 @@ class PaypalService implements PaypalServiceContract
     {
         $result = $this->paypalClient->capturePaymentOrder($vendorOrderId);
 
-        return match($result['status']) {
+        return match ($result['status']) {
             'COMPLETED', 'APPROVED' => TransactionStatus::Success,
             'CREATED', 'SAVED' => TransactionStatus::Pending,
             default => TransactionStatus::Canceled
@@ -47,7 +45,7 @@ class PaypalService implements PaypalServiceContract
         $currencyCode = config('paypal.currency');
         $items = [];
 
-        $cart->content()->each(function($cartItem) use (&$items, $currencyCode) {
+        $cart->content()->each(function ($cartItem) use (&$items, $currencyCode) {
             $items[] = [
                 'name' => $cartItem->name,
                 'quantity' => $cartItem->qty,
@@ -56,12 +54,12 @@ class PaypalService implements PaypalServiceContract
                 'category' => 'PHYSICAL_GOODS',
                 'unit_amount' => [
                     'value' => $cartItem->price,
-                    'currency_code' => $currencyCode
+                    'currency_code' => $currencyCode,
                 ],
                 'tax' => [
                     'value' => round($cartItem->price / 100 * $cartItem->taxRate, 2),
-                    'currency_code' => $currencyCode
-                ]
+                    'currency_code' => $currencyCode,
+                ],
             ];
         });
 
@@ -75,17 +73,17 @@ class PaypalService implements PaypalServiceContract
                         'breakdown' => [
                             'item_total' => [
                                 'currency_code' => $currencyCode,
-                                'value' => $cart->subtotal()
+                                'value' => $cart->subtotal(),
                             ],
                             'tax_total' => [
                                 'currency_code' => $currencyCode,
-                                'value' => $cart->tax()
-                            ]
-                        ]
+                                'value' => $cart->tax(),
+                            ],
+                        ],
                     ],
-                    'items' => $items
-                ]
-            ]
+                    'items' => $items,
+                ],
+            ],
         ];
     }
 }

@@ -11,14 +11,11 @@ use App\Repositories\Contract\OrderRepositoryContract;
 use App\Services\Contracts\PaypalServiceContract;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PaypalController extends Controller
 {
-    public function __construct(protected PaypalServiceContract $paymentService)
-    {
-    }
+    public function __construct(protected PaypalServiceContract $paymentService) {}
 
     public function create(CreateOrderRequest $request, OrderRepositoryContract $orderRepository): JsonResponse
     {
@@ -27,13 +24,13 @@ class PaypalController extends Controller
 
             $paypalOrderId = $this->paymentService->create(Cart::instance('cart'));
 
-            if (!$paypalOrderId) {
-                return response()->json(['error' => "Payment was not completed"], 422);
+            if (! $paypalOrderId) {
+                return response()->json(['error' => 'Payment was not completed'], 422);
             }
 
             $data = [
                 ...$request->validated(),
-                'vendor_order_id' => $paypalOrderId
+                'vendor_order_id' => $paypalOrderId,
             ];
 
             $order = $orderRepository->create($data);

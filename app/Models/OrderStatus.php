@@ -17,7 +17,7 @@ class OrderStatus extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'name' => OrderStatusEnum::class
+        'name' => OrderStatusEnum::class,
     ];
 
     public function orders(): HasMany

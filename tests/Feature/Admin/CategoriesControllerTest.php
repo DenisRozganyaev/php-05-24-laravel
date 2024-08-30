@@ -48,7 +48,7 @@ class CategoriesControllerTest extends TestCase
         $data = Category::factory()->makeOne()->toArray();
 
         $this->assertDatabaseMissing(Category::class, [
-           'name' => $data['name']
+            'name' => $data['name'],
         ]);
 
         $response = $this->actingAs($this->user())
@@ -64,7 +64,7 @@ class CategoriesControllerTest extends TestCase
         );
 
         $this->assertDatabaseHas(Category::class, [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 
@@ -74,14 +74,14 @@ class CategoriesControllerTest extends TestCase
         $data = Category::factory()->makeOne(['parent_id' => $parent->id])->toArray();
 
         $this->assertDatabaseMissing(Category::class, [
-           'name' => $data['name']
+            'name' => $data['name'],
         ]);
 
         $this->actingAs($this->user())->post(route('admin.categories.store'), $data);
 
         $this->assertDatabaseHas(Category::class, [
             'name' => $data['name'],
-            'parent_id' => $parent->id
+            'parent_id' => $parent->id,
         ]);
     }
 
@@ -90,7 +90,7 @@ class CategoriesControllerTest extends TestCase
         $data = ['name' => 'a'];
 
         $this->assertDatabaseMissing(Category::class, [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
 
         $response = $this->actingAs($this->user())
@@ -100,7 +100,7 @@ class CategoriesControllerTest extends TestCase
         $response->assertSessionHasErrors(['name']);
         $response->assertRedirectToRoute('admin.categories.create');
         $this->assertDatabaseMissing(Category::class, [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 
@@ -109,7 +109,7 @@ class CategoriesControllerTest extends TestCase
         $data = Category::factory()->makeOne(['parent_id' => 99999999])->toArray();
 
         $this->assertDatabaseMissing(Category::class, [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
 
         $response = $this->actingAs($this->user())
@@ -119,7 +119,7 @@ class CategoriesControllerTest extends TestCase
         $response->assertSessionHasErrors(['parent_id']);
         $response->assertRedirectToRoute('admin.categories.create');
         $this->assertDatabaseMissing(Category::class, [
-            'name' => $data['name']
+            'name' => $data['name'],
         ]);
     }
 
@@ -131,11 +131,11 @@ class CategoriesControllerTest extends TestCase
 
         $this->assertDatabaseHas(Category::class, [
             'name' => $category->name,
-            'slug' => $category->slug
+            'slug' => $category->slug,
         ]);
         $this->assertDatabaseMissing(Category::class, [
             'name' => $newName,
-            'slug' => $newName
+            'slug' => $newName,
         ]);
 
         $this->actingAs($this->user())
@@ -143,11 +143,11 @@ class CategoriesControllerTest extends TestCase
 
         $this->assertDatabaseHas(Category::class, [
             'name' => $newName,
-            'slug' => $newName
+            'slug' => $newName,
         ]);
         $this->assertDatabaseMissing(Category::class, [
             'name' => $category->name,
-            'slug' => $category->slug
+            'slug' => $category->slug,
         ]);
     }
 
@@ -156,15 +156,14 @@ class CategoriesControllerTest extends TestCase
         $category = Category::factory()->create();
 
         $this->assertDatabaseHas(Category::class, [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
 
         $this->actingAs($this->user())
             ->delete(route('admin.categories.destroy', $category));
 
-
         $this->assertDatabaseMissing(Category::class, [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
     }
 
@@ -174,16 +173,15 @@ class CategoriesControllerTest extends TestCase
         $child = Category::factory()->createOne(['parent_id' => $category->id]);
 
         $this->assertDatabaseHas(Category::class, [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
         $this->assertEquals($category->id, $child->parent_id);
 
         $this->actingAs($this->user())
             ->delete(route('admin.categories.destroy', $category));
 
-
         $this->assertDatabaseMissing(Category::class, [
-            'id' => $category->id
+            'id' => $category->id,
         ]);
 
         $child->refresh();

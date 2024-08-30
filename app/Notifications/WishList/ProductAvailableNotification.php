@@ -29,7 +29,7 @@ class ProductAvailableNotification extends Notification
     {
         return (new MailMessage)
             ->line("Hey, $user->name $user->lastname")
-            ->line("Product ". $this->product->title ." from your wish list is available!")
+            ->line('Product '.$this->product->title.' from your wish list is available!')
             ->line('Hurry up!')
             ->action('Visit product page', url(route('products.show', $this->product)))
             ->line('Thank you for using our application!');

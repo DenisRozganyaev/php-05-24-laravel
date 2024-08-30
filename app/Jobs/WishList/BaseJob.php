@@ -3,7 +3,6 @@
 namespace App\Jobs\WishList;
 
 use App\Models\Product;
-use App\Notifications\WishList\NewPriceNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -33,10 +32,10 @@ abstract class BaseJob implements ShouldQueue
             ->wherePivot($type, true)
             ->chunk(
                 500,
-                fn(Collection $users) => Notification::send(
+                fn (Collection $users) => Notification::send(
                     $users,
                     app($notificationClass, [
-                        'product' => $this->product
+                        'product' => $this->product,
                     ])
                 )
             );

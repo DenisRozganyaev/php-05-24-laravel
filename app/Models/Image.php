@@ -25,7 +25,7 @@ class Image extends Model
         'imageable_id',
         'imageable_type',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public function imageable(): MorphTo

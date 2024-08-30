@@ -14,6 +14,7 @@ class CheckoutController extends Controller
     {
         if (Cart::instance('cart')->countItems() === 0) {
             notify()->warning('You can not visit checkout with an empty cart');
+
             return redirect()->route('home');
         }
 

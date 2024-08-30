@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatusEnum;
 use App\Observers\ProductObserver;
 use App\Observers\WishListObserver;
 use App\Services\Contracts\FileServiceContract;
@@ -35,7 +34,7 @@ class Product extends Model
         'quantity',
         'thumbnail',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public $sortable = [
@@ -46,7 +45,7 @@ class Product extends Model
         'quantity',
         'discount',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
@@ -78,7 +77,6 @@ class Product extends Model
         return $this->belongsToMany(Order::class);
     }
 
-
     public function scopeExists(Builder $query): Builder
     {
         return $query->where('quantity', '>', 0);
@@ -100,7 +98,7 @@ class Product extends Model
 
     public function imagesDir(): Attribute
     {
-        return Attribute::get(fn () => 'products/' . $this->attributes['slug']);
+        return Attribute::get(fn () => 'products/'.$this->attributes['slug']);
     }
 
     public function thumbnailUrl(): Attribute
@@ -111,14 +109,14 @@ class Product extends Model
     public function finalPrice(): Attribute
     {
         return Attribute::get(
-            fn() => round($this->attributes['price'] - ($this->attributes['price'] * ($this->attributes['discount'] / 100)), 2)
+            fn () => round($this->attributes['price'] - ($this->attributes['price'] * ($this->attributes['discount'] / 100)), 2)
         );
     }
 
     public function exist(): Attribute
     {
         return Attribute::get(
-            fn() => $this->quantity > 0
+            fn () => $this->quantity > 0
         );
     }
 }

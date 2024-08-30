@@ -50,10 +50,10 @@ class OrderCreatedNotification extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->subject('New order!')
-            ->line('Hello, ' . $user->name . ' ' . $user->lastname)
+            ->line('Hello, '.$user->name.' '.$user->lastname)
             ->line('There is a new order')
             ->line('')
-            ->line('Total: ' . $this->order->total . ' ' . config('paypal.currency'))
+            ->line('Total: '.$this->order->total.' '.config('paypal.currency'))
             ->action('Check this order', $url);
     }
 
@@ -64,10 +64,10 @@ class OrderCreatedNotification extends Notification implements ShouldQueue
 
         return TelegramMessage::create()
             ->to($user->telegram_id)
-            ->content('Hello, ' . $user->name . ' ' . $user->lastname)
+            ->content('Hello, '.$user->name.' '.$user->lastname)
             ->line('There is a new order')
             ->line('')
-            ->line('Total: ' . $this->order->total . ' ' . config('paypal.currency'))
+            ->line('Total: '.$this->order->total.' '.config('paypal.currency'))
             ->button('Check this order', $url);
     }
 }

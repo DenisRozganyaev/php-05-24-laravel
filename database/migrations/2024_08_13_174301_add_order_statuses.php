@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        foreach(OrderStatusEnum::values() as $name) {
+        foreach (OrderStatusEnum::values() as $name) {
             OrderStatus::create(compact('name'));
         }
     }
