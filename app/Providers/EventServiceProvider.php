@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\OrderCreatedEvent;
+use App\Events\SocialiteCreatedAccountEvent;
+use App\Listeners\CreatedAccListener;
 use App\Listeners\Orders\CreatedListener;
 use App\Listeners\RestoreCartOnLogin;
 use App\Listeners\SaveCartOnLogout;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         Logout::class => [
             SaveCartOnLogout::class,
         ],
+        SocialiteCreatedAccountEvent::class => [
+            CreatedAccListener::class
+        ]
     ];
 
     /**

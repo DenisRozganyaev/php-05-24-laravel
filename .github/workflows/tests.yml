@@ -6,7 +6,7 @@ on:
 
 jobs:
   laravel-tests:
-    name: Tests
+    name: Laravel Tests
     runs-on: ubuntu-24.04
 
     services:

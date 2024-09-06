@@ -57,6 +57,14 @@
                                     {{ __('Login') }}
                                 </button>
 
+                                <span class="mb-1 mt-1">- OR -</span>
+
+                                <a class="btn btn-primary" href="{{ route('callbacks.google.redirect') }}">
+                                    <i class="fa-brands fa-google"></i> Auth via Google
+                                </a>
+
+                                <br>
+
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}

@@ -103,7 +103,21 @@ class Product extends Model
 
     public function thumbnailUrl(): Attribute
     {
-        return Attribute::get(fn () => Storage::url($this->attributes['thumbnail']));
+        return Attribute::get(function() {
+
+            if (Storage::disk('public')->exists($this->thumbnail)) {
+                return Storage::disk('public')->url($this->thumbnail);
+            }
+
+            $key = 'products.thumbnail.' . $this->attributes['id'];
+
+            if (! cache()->has($key)) {
+                $temporaryUrl = Storage::temporaryUrl($this->attributes['thumbnail'], now()->addMinutes(10));
+                cache()->put($key, $temporaryUrl, 590);
+            }
+
+            return cache()->get($key);
+        });
     }
 
     public function finalPrice(): Attribute
