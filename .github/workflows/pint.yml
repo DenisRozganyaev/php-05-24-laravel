@@ -6,7 +6,7 @@ on:
 
 jobs:
   lint:
-    name: Lint
+    name: Pint
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true

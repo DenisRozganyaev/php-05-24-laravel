@@ -58,4 +58,7 @@ Route::name('callbacks.')->prefix('callbacks')->group(function () {
     Route::get('telegram', \App\Http\Controllers\Callbacks\JoinTelegramController::class)
         ->middleware(['role:admin'])
         ->name('telegram');
+
+    Route::get('google', [\App\Http\Controllers\Callbacks\GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
+    Route::get('google/redirect', [\App\Http\Controllers\Callbacks\GoogleAuthController::class, 'redirectToGoogle'])->name('google.redirect');
 });
