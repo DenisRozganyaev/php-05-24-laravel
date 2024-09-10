@@ -23,7 +23,7 @@
 
 
 
-    
+
     <div class="row row-cols-1 row-cols-sm-1 row-cols-md-3 row-cols-lg-4 g-3">
         @each('products.parts.card', $products, 'product')
     </div>

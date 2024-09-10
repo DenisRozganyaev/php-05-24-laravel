@@ -20,7 +20,6 @@
         "laravel/ui": "^4.5",
         "laraveldaily/laravel-invoices": "^4.0",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "predis/predis": "^2.2",
         "spatie/laravel-permission": "^6.9",
         "srmklive/paypal": "^3.0"
     },
