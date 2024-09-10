@@ -1,7 +1,7 @@
 #!/bin/sh
 
-npm install;
-npm run build;
+#npm install;
+#npm run build;
 php artisan migrate --force;
 php artisan optimize;
 php artisan event:cache;
