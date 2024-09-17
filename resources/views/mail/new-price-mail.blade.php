@@ -4,7 +4,7 @@
 The body of your message.
 
 <x-mail::button :url="$url">
-Button Text
+Button Text 2312
 </x-mail::button>
 
 
@@ -12,5 +12,13 @@ Button Text
 
 
 Thanks,<br>
+
+
+
+
 {{ config('app.name') }}
+
+
+
+
 </x-mail::message>
